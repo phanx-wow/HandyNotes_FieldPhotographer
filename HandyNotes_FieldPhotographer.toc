@@ -1,0 +1,18 @@
+## Interface: 60200
+## Version: @project-version@
+
+## Title: HandyNotes_FieldPhotographer
+## Notes: Shows you where to take selfies for the achievement.
+## Notes-deDE: Zeigt Euch, wo Selfies für den Erfolg zu schießen.
+## Notes-esES: Mostrar donde para sacar fotos para el logro.
+## Notes-esMX: Mostrar donde para sacar fotos para el logro.
+
+## Author: Phanx
+## X-Email: addons@phanx.net
+## X-Copyright: Copyright (c) 2015 Phanx. All rights reserved.
+## X-Website: https://github.com/Phanx/HandyNotes_FieldPhotographer
+
+## Dependencies: HandyNotes
+## OptionalDependencies: TomTom
+
+Addon.lua
