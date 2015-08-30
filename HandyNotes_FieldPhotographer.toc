@@ -3,7 +3,7 @@
 
 ## Title: HandyNotes: Field Photographer
 ## Notes: Shows you where to take selfies for the achievement.
-## Notes-deDE: Zeigt Euch, wo Selfies für den Erfolg zu schießen.
+## Notes-deDE: Zeigt, wo Selfies für den Erfolg zu schießen.
 ## Notes-esES: Mostrar donde para sacar fotos para el logro.
 ## Notes-esMX: Mostrar donde para sacar fotos para el logro.
 
