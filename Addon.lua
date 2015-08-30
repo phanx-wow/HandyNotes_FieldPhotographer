@@ -13,7 +13,46 @@ local HandyNotes = LibStub("AceAddon-3.0"):GetAddon("HandyNotes")
 local ACHIEVEMENT_ID = 9924
 local ACHIEVEMENT_NAME = select(2, GetAchievementInfo(ACHIEVEMENT_ID))
 local ADDON_TITLE = GetAddOnMetadata(ADDON_NAME, "Title")
-local ICON = "Interface\\ICONS\\INV_Misc_ SelfieCamera_01" -- space intentional!
+local ICON = "Interface\\AddOns\\"..ADDON_NAME.."\\Camera"
+
+local L = setmetatable({}, { __index = function(t, k) t[k] = k return k end })
+if GetLocale() == "deDE" then
+	L["Anywhere in the city"] = "Irgendwo in der Stadt"
+	L["Anywhere in the zone"] = "Irgendwo in der Zone"
+	L["Continent Alpha"] = "Kontinentsopazität"
+	L["Continent Scale"] = "Kontinentsgröße"
+	L["Ctrl-Right-Click for all waypoints"] = "STRG-Rechtsklick, um alle Zielpunkte zu setzen"
+	L["Inside the instance"] = "Innerhalb der Instanz"
+	L["Inside the instance, must kill bosses to reach The Lich King"] = "Innerhalb der Instanz, man müsst Bosse töten, um den Lichkönig zu erreichen"
+	L["Neverest Pinnacle doesn't count"] = "Gipfel des Nimmerlaya zählt nicht"
+	L["On the surface is OK"] = "Auf der Erdoberfläche ist zulässig"
+	L["Right-Click for this waypoint"] = "Rechtsklick, um Zielpunkt zu setzen"
+	L["Show icons on continent maps"] = "Symbole auf Kontinentskarten anzeigen"
+	L["The opacity of icons on continent maps"] = "Die Undurchsichtigkeit der Symbole auf Kontinentskarten"
+	L["The opacity of icons on zone maps"] = "Die Undurchsichtigkeit der Symbole auf Zonekarten"
+	L["The size of icons on continent maps"] = "Die Größe der Symbole auf Kontinentskarten"
+	L["The size of icons on zone maps"] = "Die Größe der Symbole auf Zonekarten"
+	L["Zone Alpha"] = "Symbolsopazität"
+	L["Zone Scale"] = "Symbolsgröße"
+elseif GetLocale():match("^es") then
+	L["Anywhere in the city"] = "En cualquier parte de la ciudad"
+	L["Anywhere in the zone"] = "En cualquier parte de la zona"
+	L["Continent Alpha"] = "Opacidad en continente"
+	L["Continent Scale"] = "Tamaño en continente"
+	L["Ctrl-Right-Click for all waypoints"] = "Ctrl+clic derecho para todos waypoints"
+	L["Inside the instance"] = "Dentro de la instancia"
+	L["Inside the instance, must kill bosses to reach The Lich King"] = "Dentro de la instancia, matar a jefes para llegar al Rey Exánime"
+	L["Neverest Pinnacle doesn't count"] = "Cumbre del Nieverest no cuenta"
+	L["On the surface is OK"] = "En la superficie está bien"
+	L["Right-Click for this waypoint"] = "Clic derecho para un waypoint"
+	L["Show icons on continent maps"] = "Mostrar iconos en mapas de continentes"
+	L["The opacity of icons on continent maps"] = "La opacidad de los iconos en mapas de continentes"
+	L["The opacity of icons on zone maps"] = "La opacidad de los iconos en mapas de zonas"
+	L["The size of icons on continent maps"] = "El tamaño de los iconos en mapas de continentes"
+	L["The size of icons on zone maps"] = "El tamaño de los iconos en mapas de zonas"
+	L["Zone Alpha"] = "Opacidad en zona"
+	L["Zone Scale"] = "Tamaño en zona"
+end
 
 local names, mapToContinent, db, wasInCamera = {}, {}
 
@@ -46,9 +85,9 @@ local data = {
 	["EchoIslesStart"] = {
 		[38283533] = 27971, -- Echo Isles
 	},
---	["Durotar"] = {
---		[45001000] = UNKNOWN, -- Orgrimmar
---	},
+	["Durotar"] = {
+		[45001000] = 27869, -- Orgrimmar
+	},
 	["Duskwood"] = {
 		[74875097] = 27956, -- Darkshire
 	},
@@ -110,9 +149,9 @@ local data = {
 	["Netherstorm"] = {
 		[45003500] = 27966, -- The Stormspire
 	},
---	["Orgrimmar"] = {
---		[UNKNOWN] = 51495787, -- Orgrimmar
---	},
+	["Orgrimmar"] = {
+		[51495787] = 27869, -- Orgrimmar
+	},
 	["SearingGorge"] = {
 		[34938343] = 27968, -- Blackrock Mountain
 	},
@@ -177,6 +216,11 @@ local data = {
 	},
 }
 
+local factions = {
+	[27869] = "Horde", -- Orgrimmar
+	[27864] = "Alliance", -- Stormwind City
+}
+
 local continents = {
 	["Azeroth"] = true, -- Eastern Kingdoms
 	["Draenor"] = true,
@@ -187,20 +231,20 @@ local continents = {
 }
 
 local notes = {
-	[27863] = "Inside the instance, must kill bosses to reach The Lich King", -- The Frozen Throne
-	[27864] = "Anywhere in the city", -- Stormwind City
-	[27867] = "Anywhere in the city", -- Dalaran
-	[27870] = "Anywhere in the zone", -- Vale of Eternal Blossoms
-	[27873] = "Inside the instance", -- Deeprun Tram
-	[27876] = "Inside the instance", -- Karazhan
-	[27878] = "Inside the instance", -- The Deadmines
-	[27879] = "Inside the instance", -- Naxxramas
-	[27959] = "Anywhere in the zone", -- Vashj'ir
-	[27964] = "Neverest Pinnacle doesn’t count", -- Mount Neverest
-	[27967] = "On the surface is OK", -- Caverns of Time
-	[27977] = "Inside the instance", -- Auchindoun (Draenor)
-	[27978] = "Inside the instance", -- Halls of Origination
---	[UNKNOWN] = "Anywhere in the city", -- Orgrimmar
+	[27863] = L["Inside the instance, must kill bosses to reach The Lich King"], -- The Frozen Throne
+	[27864] = L["Anywhere in the city"], -- Stormwind City
+	[27867] = L["Anywhere in the city"], -- Dalaran
+	[27870] = L["Anywhere in the zone"], -- Vale of Eternal Blossoms
+	[27873] = L["Inside the instance"], -- Deeprun Tram
+	[27876] = L["Inside the instance"], -- Karazhan
+	[27878] = L["Inside the instance"], -- The Deadmines
+	[27879] = L["Inside the instance"], -- Naxxramas
+	[27959] = L["Anywhere in the zone"], -- Vashj'ir
+	[27964] = L["Neverest Pinnacle doesn't count"], -- Mount Neverest
+	[27967] = L["On the surface is OK"], -- Caverns of Time
+	[27977] = L["Inside the instance"], -- Auchindoun (Draenor)
+	[27978] = L["Inside the instance"], -- Halls of Origination
+--	[UNKNOWN] = L["Anywhere in the city"], -- Orgrimmar
 }
 
 local cameraBuffs ={
@@ -219,7 +263,7 @@ local defaults = {
 
 local options = {
 	type = "group",
-	name = "Field Photographer",
+	name = ACHIEVEMENT_NAME,
 	get = function(info)
 		return db[info[#info]]
 	end,
@@ -230,34 +274,43 @@ local options = {
 	args = {
 		zoneAlpha = {
 			order = 2,
+			name = L["Zone Alpha"],
+			desc = L["The opacity of icons on zone maps"],
 			type = "range",
-			name = "Zone Icon Alpha",
 			min = 0, max = 1, step = 0.05, isPercent = true,
 		},
 		zoneScale = {
 			order = 4,
+			name = L["Zone Scale"],
+			desc = L["The size of icons on zone maps"],
 			type = "range",
-			name = "Zone Icon Scale",
-			min = 0.25, max = 2, step = 0.05,
+			min = 0.25, max = 2, step = 0.05, isPercent = true,
+		},
+		spacer = {
+			order = 5,
+			name = " ",
+			type = "description",
 		},
 		showOnContinents = {
 			order = 6,
+			name = L["Show icons on continent maps"],
 			type = "toggle",
-			name = "Show icons on continent maps",
 			width = "full",
 		},
 		continentAlpha = {
 			order = 8,
+			name = L["Continent Alpha"],
+			desc = L["The opacity of icons on continent maps"],
 			type = "range",
-			name = "Continent Icon Alpha",
 			min = 0, max = 1, step = 0.05, isPercent = true,
 			disabled = function() return not db.showOnContinents end,
 		},
 		continentScale = {
 			order = 10,
+			name = L["Continent Scale"],
+			desc = L["The size of icons on continent maps"],
 			type = "range",
-			name = "Continent Icon Scale",
-			min = 0.25, max = 2, step = 0.05,
+			min = 0.25, max = 2, step = 0.05, isPercent = true,
 			disabled = function() return not db.showOnContinents end,
 		},
 	}
@@ -283,8 +336,8 @@ function pluginHandler:OnEnter(mapFile, coord)
 			tooltip:AddLine(notes[criteria], 1, 1, 1)
 		end
 		if TomTom then
-			tooltip:AddLine("Right-Click for this waypoint")
-			tooltip:AddLine("Ctrl-Right-Click for all waypoints")
+			tooltip:AddLine(L["Right-Click for this waypoint"])
+			tooltip:AddLine(L["Ctrl-Right-Click for all waypoints"])
 		end
 		tooltip:Show()
 	end
@@ -347,7 +400,9 @@ do
 		local coord, v = next(t, prev)
 		while coord do
 			if v then
-				return coord, nil, ICON, scale, alpha -- coord, mapFile2, iconpath, scale, alpha, level2
+				-- coord, mapFile2, iconpath, scale, alpha, level2
+				-- multiply scale * 1.4 to compensate for transparent texture regions
+				return coord, nil, ICON, scale * 1.4, alpha
 			end
 			coord, v = next(t, coord)
 		end
@@ -376,6 +431,19 @@ function Addon:PLAYER_LOGIN()
 	HandyNotes:RegisterPluginDB(ACHIEVEMENT_NAME, pluginHandler, options)
 	self.db = LibStub("AceDB-3.0"):New("HNFieldPhotographerDB", defaults, true)
 	db = self.db.profile
+	-- Remove opposite faction only criteria
+	local faction = UnitFactionGroup("player") 
+	for mapFile, t in next, data do
+		for coord, criteria in next, t do
+			if factions[criteria] and factions[criteria] ~= faction then
+				--print("Removed faction criteria:", (GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID, criteria)))
+				t[coord] = nil
+				if not next(t) then
+					mapFile[t] = nil
+				end
+			end
+		end
+	end
 	-- Calculate continent coordinates
 	local HereBeDragons = LibStub("HereBeDragons-1.0")
 	local continents = { GetMapContinents() }
@@ -384,23 +452,13 @@ function Addon:PLAYER_LOGIN()
 			local continentMapID = continents[2 * HandyNotes:GetCZ(mapFile) - 1]
 			local continentMapFile = HandyNotes:GetMapIDtoMapFile(continentMapID)
 			mapToContinent[mapFile] = continentMapFile
-			--print("mapFile", mapFile, "-> continent", continentMapID, continentMapFile)
 			for coord, criteria in next, coords do
-				--local name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID, criteria)
 				local x, y = HandyNotes:getXY(coord)
-				--print("criteria", name, coord, "->", x, y)
 				x, y = HereBeDragons:GetWorldCoordinatesFromZone(x, y, mapFile)
-				--print("- world", x, y)
 				x, y = HereBeDragons:GetZoneCoordinatesFromWorld(x, y, continentMapID)
-				--print("- continent", x, y)
 				if x and y then
 					data[continentMapFile] = data[continentMapFile] or {}
 					data[continentMapFile][HandyNotes:getCoord(x, y)] = criteria
-				else
-					print("No continent coordinates for:")
-					print("- Criteria:", name)
-					print("- Zone:", mapFile, HandyNotes:getXY(coord))
-					print("- Continent:", continentMapID, continentMapFile)
 				end
 			end
 		end
