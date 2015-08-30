@@ -15,6 +15,8 @@ local ACHIEVEMENT_NAME = select(2, GetAchievementInfo(ACHIEVEMENT_ID))
 local ADDON_TITLE = GetAddOnMetadata(ADDON_NAME, "Title")
 local ICON = "Interface\\ICONS\\INV_Misc_ SelfieCamera_01" -- space intentional!
 
+local names, mapToContinent, db, wasInCamera = {}, {}
+
 local data = {
 	["Arathi"] = {
 		[39439262] = 27874, -- Thandol Span
@@ -175,6 +177,15 @@ local data = {
 	},
 }
 
+local continents = {
+	["Azeroth"] = true, -- Eastern Kingdoms
+	["Draenor"] = true,
+	["Expansion01"] = true, -- Outland
+	["Kalimdor"] = true,
+	["Northrend"] = true,
+	["Pandaria"] = true,
+}
+
 local notes = {
 	[27863] = "Inside the instance, must kill bosses to reach The Lich King", -- The Frozen Throne
 	[27864] = "Anywhere in the city", -- Stormwind City
@@ -192,7 +203,65 @@ local notes = {
 --	[UNKNOWN] = "Anywhere in the city", -- Orgrimmar
 }
 
-local names = {}
+local cameraBuffs ={
+	(GetSpellInfo(182575)),
+	(GetSpellInfo(181884)),
+}
+
+local defaults = {
+	profile = {
+		zoneAlpha = 1,
+		zoneScale = 1.5,
+		continentScale = 1,
+		showOnContinents = true,
+	}
+}
+
+local options = {
+	type = "group",
+	name = "Field Photographer",
+	get = function(info)
+		return db[info[#info]]
+	end,
+	set = function(info, v)
+		db[info[#info]] = v
+		HandyNotes:SendMessage("HandyNotes_NotifyUpdate", ACHIEVEMENT_NAME)
+	end,
+	args = {
+		zoneAlpha = {
+			order = 2,
+			type = "range",
+			name = "Zone Icon Alpha",
+			min = 0, max = 1, step = 0.05, isPercent = true,
+		},
+		zoneScale = {
+			order = 4,
+			type = "range",
+			name = "Zone Icon Scale",
+			min = 0.25, max = 2, step = 0.05,
+		},
+		showOnContinents = {
+			order = 6,
+			type = "toggle",
+			name = "Show icons on continent maps",
+			width = "full",
+		},
+		continentAlpha = {
+			order = 8,
+			type = "range",
+			name = "Continent Icon Alpha",
+			min = 0, max = 1, step = 0.05, isPercent = true,
+			disabled = function() return not db.showOnContinents end,
+		},
+		continentScale = {
+			order = 10,
+			type = "range",
+			name = "Continent Icon Scale",
+			min = 0.25, max = 2, step = 0.05,
+			disabled = function() return not db.showOnContinents end,
+		},
+	}
+}
 
 ------------------------------------------------------------------------
 
@@ -251,8 +320,10 @@ end
 
 local function setAllWaypoints()
 	for mapFile, coords in next, data do
-		for coord in next, coords do
-			setWaypoint(mapFile, coord)
+		if not continents[mapFile] then
+			for coord in next, coords do
+				setWaypoint(mapFile, coord)
+			end
 		end
 	end
 end
@@ -270,12 +341,13 @@ end
 ------------------------------------------------------------------------
 
 do
+	local scale, alpha
 	local function iterator(t, prev)
 		if not t then return end
 		local coord, v = next(t, prev)
 		while coord do
 			if v then
-				return coord, nil, ICON, 1.5, 1 -- coord, mapFile2, iconpath, scale, alpha, level2
+				return coord, nil, ICON, scale, alpha -- coord, mapFile2, iconpath, scale, alpha, level2
 			end
 			coord, v = next(t, coord)
 		end
@@ -283,16 +355,17 @@ do
 	function pluginHandler:GetNodes(mapFile, minimap, dungeonLevel)
 		mapFile = gsub(mapFile, "_terrain%d+$", "")
 		--print(ACHIEVEMENT_NAME, "GetNodes", mapFile)
+		local isContinent = continents[mapFile]
+		if isContinent and not db.showOnContinents then
+			return iterator
+		end
+		scale = isContinent and db.continentScale or db.zoneScale
+		alpha = isContinent and db.continentAlpha or db.zoneAlpha
 		return iterator, data[mapFile]
 	end
 end
 
 ------------------------------------------------------------------------
-
-local wasInCamera, cameraBuffs = false, {
-	(GetSpellInfo(182575)),
-	(GetSpellInfo(181884)),
-}
 
 local Addon = CreateFrame("Frame")
 Addon:RegisterEvent("PLAYER_LOGIN")
@@ -300,7 +373,39 @@ Addon:SetScript("OnEvent", function(self, event, ...) return self[event](self, .
 
 function Addon:PLAYER_LOGIN()
 	--print("PLAYER_LOGIN")
-	HandyNotes:RegisterPluginDB(ACHIEVEMENT_NAME, pluginHandler)
+	HandyNotes:RegisterPluginDB(ACHIEVEMENT_NAME, pluginHandler, options)
+	self.db = LibStub("AceDB-3.0"):New("HNFieldPhotographerDB", defaults, true)
+	db = self.db.profile
+	-- Calculate continent coordinates
+	local HereBeDragons = LibStub("HereBeDragons-1.0")
+	local continents = { GetMapContinents() }
+	for mapFile, coords in next, data do
+		if not continents[mapFile] then
+			local continentMapID = continents[2 * HandyNotes:GetCZ(mapFile) - 1]
+			local continentMapFile = HandyNotes:GetMapIDtoMapFile(continentMapID)
+			mapToContinent[mapFile] = continentMapFile
+			--print("mapFile", mapFile, "-> continent", continentMapID, continentMapFile)
+			for coord, criteria in next, coords do
+				--local name = GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID, criteria)
+				local x, y = HandyNotes:getXY(coord)
+				--print("criteria", name, coord, "->", x, y)
+				x, y = HereBeDragons:GetWorldCoordinatesFromZone(x, y, mapFile)
+				--print("- world", x, y)
+				x, y = HereBeDragons:GetZoneCoordinatesFromWorld(x, y, continentMapID)
+				--print("- continent", x, y)
+				if x and y then
+					data[continentMapFile] = data[continentMapFile] or {}
+					data[continentMapFile][HandyNotes:getCoord(x, y)] = criteria
+				else
+					print("No continent coordinates for:")
+					print("- Criteria:", name)
+					print("- Zone:", mapFile, HandyNotes:getXY(coord))
+					print("- Continent:", continentMapID, continentMapFile)
+				end
+			end
+		end
+	end
+	-- Go
 	self:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
 	self:CRITERIA_UPDATE()
 end
