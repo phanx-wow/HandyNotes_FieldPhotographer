@@ -433,13 +433,13 @@ function Addon:PLAYER_LOGIN()
 	db = self.db.profile
 	-- Remove opposite faction only criteria
 	local faction = UnitFactionGroup("player") 
-	for mapFile, t in next, data do
-		for coord, criteria in next, t do
+	for mapFile, coords in next, data do
+		for coord, criteria in next, coords do
 			if factions[criteria] and factions[criteria] ~= faction then
 				--print("Removed faction criteria:", (GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID, criteria)))
-				t[coord] = nil
-				if not next(t) then
-					mapFile[t] = nil
+				coords[coord] = nil
+				if not next(coords) then
+					data[mapFile] = nil
 				end
 			end
 		end
