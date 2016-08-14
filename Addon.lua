@@ -1,10 +1,10 @@
 --[[--------------------------------------------------------------------
 	HandyNotes: Field Photographer
 	Shows where to take selfies for the achievement.
-	Copyright (c) 2015 Phanx <addons@phanx.net>. All rights reserved.
-	http://www.wowinterface.com/downloads/info-HandyNotes-FieldPhotographer.html
-	http://www.curse.com/addons/wow/handynotes-field-photographer
+	Copyright (c) 2015-2016 Phanx <addons@phanx.net>. All rights reserved.
 	https://github.com/Phanx/HandyNotes_FieldPhotographer
+	https://mods.curse.com/addons/wow/handynotes-field-photographer
+	https://www.wowinterface.com/downloads/info23667-HandyNotesFieldPhotographer.html
 ----------------------------------------------------------------------]]
 
 local ADDON_NAME = ...
