@@ -61,7 +61,7 @@ local data = {
 		[39439262] = 27874, -- Thandol Span
 	},
 	["BlastedLands"] = {
-		[54605417] = 27866, -- The Dark Portal
+		[54605317] = 27866, -- The Dark Portal
 	},
 	["BurningSteppes"] = {
 		[25022128] = 27968, -- Blackrock Mountain
@@ -81,12 +81,10 @@ local data = {
 	},
 	["Durotar"] = {
 		[62027726] = 27971, -- Echo Isles
+		[45001000] = 27869, -- Orgrimmar
 	},
 	["EchoIslesStart"] = {
 		[38283533] = 27971, -- Echo Isles
-	},
-	["Durotar"] = {
-		[45001000] = 27869, -- Orgrimmar
 	},
 	["Duskwood"] = {
 		[74875097] = 27956, -- Darkshire
@@ -98,7 +96,7 @@ local data = {
 		[46987490] = 27876, -- Karazhan
 	},
 	["EasternPlaguelands"] = {
-		[75805336] = 27954, -- Light's Hope Chapel
+		[78005336] = 27954, -- Light's Hope Chapel
 	},
 	["Elwynn"] = {
 		[66503505] = 27873, -- Deeprun Tram
@@ -129,7 +127,7 @@ local data = {
 		[72003100] = 27976, -- Turtle Beach
 	},
 	["KunLaiSummit"] = {
-		[43005200] = 27964, -- Mount Neverest
+		[43505220] = 27964, -- Mount Neverest
 	},
 	["LochModan"] = {
 		[20897417] = 27960, -- Valley of Kings
@@ -147,10 +145,10 @@ local data = {
 		[72992066] = 27962, -- Throne of the Elements
 	},
 	["Netherstorm"] = {
-		[45003500] = 27966, -- The Stormspire
+		[44503400] = 27966, -- The Stormspire
 	},
 	["Orgrimmar"] = {
-		[51495787] = 27869, -- Orgrimmar
+		[48505750] = 27869, -- Orgrimmar
 	},
 	["SearingGorge"] = {
 		[34938343] = 27968, -- Blackrock Mountain
@@ -201,7 +199,7 @@ local data = {
 		[58001738] = 27959, -- Vashj'ir
 	},
 	["WesternPlaguelands"] = {
-		[44651826] = 27875, -- Hearthglen
+		[46542031] = 27875, -- Hearthglen
 		[51928248] = 27972, -- Uther's Tomb
 	},
 	["Westfall"] = {
