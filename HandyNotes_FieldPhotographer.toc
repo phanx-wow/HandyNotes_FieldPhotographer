@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70300
 ## Version: @project-version@
 
 ## Title: HandyNotes: Field Photographer
@@ -9,7 +9,7 @@
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright (c) 2015-2016 Phanx. All rights reserved.
+## X-License: All rights reserved
 ## X-Website: https://github.com/Phanx/HandyNotes_FieldPhotographer
 ## X-Curse-Project-ID: handynotes-field-photographer
 ## X-WoWI-ID: 23667
