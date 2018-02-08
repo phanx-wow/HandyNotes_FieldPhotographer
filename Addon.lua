@@ -469,7 +469,7 @@ end
 function Addon:UPDATE_OVERRIDE_ACTIONBAR()
 	local inCamera = false
 	for i = 1, #cameraBuffs do
-		if UnitBuff("player", cameraBuffs[i]) then
+		if cameraBuffs[i] and UnitBuff("player", cameraBuffs[i]) then
 			inCamera = true
 			break
 		end
