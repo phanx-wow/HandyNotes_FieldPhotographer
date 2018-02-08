@@ -11,7 +11,7 @@
 ## X-Email: addons@phanx.net
 ## X-License: All rights reserved
 ## X-Website: https://github.com/Phanx/HandyNotes_FieldPhotographer
-## X-Curse-Project-ID: handynotes-field-photographer
+## X-Curse-Project-ID: 94664
 ## X-WoWI-ID: 23667
 
 ## Dependencies: HandyNotes
