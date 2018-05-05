@@ -246,8 +246,8 @@ local notes = {
 }
 
 local cameraBuffs = {
-	(GetSpellInfo(181765)),
-	(GetSpellInfo(181884)),
+	[(GetSpellInfo(181765)) or ""] = true,
+	[(GetSpellInfo(181884)) or ""] = true,
 }
 
 local defaults = {
@@ -468,9 +468,10 @@ end
 
 function Addon:UPDATE_OVERRIDE_ACTIONBAR()
 	local inCamera = false
-	for i = 1, #cameraBuffs do
-		if UnitBuff("player", cameraBuffs[i]) then
-			inCamera = true
+	for i = 1, 40 do
+		local name = UnitBuff("player", i)
+		if not name or cameraBuffs[name] then
+			inCamera = name and cameraBuffs[name]
 			break
 		end
 	end
