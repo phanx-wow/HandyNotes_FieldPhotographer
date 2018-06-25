@@ -148,7 +148,7 @@ local data = {
 		[44503400] = 27966, -- The Stormspire
 	},
 	["Orgrimmar"] = {
-		[48505750] = 27869, -- Orgrimmar
+		[51498109] = 27869, -- Orgrimmar
 	},
 	["SearingGorge"] = {
 		[34938343] = 27968, -- Blackrock Mountain

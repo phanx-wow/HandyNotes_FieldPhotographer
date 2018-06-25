@@ -1,3 +1,7 @@
+### Version 7.3.5.1
+
+* Adjusted position of Orgrimmar icon further away from flight master icon
+
 ### Version 7.3.5.0
 
 * Fixed an error in WoW 7.3.5
