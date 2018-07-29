@@ -1,3 +1,7 @@
+### Version 8.0.0.0
+
+* Updated for WoW 8.0
+
 ### Version 7.3.5.1
 
 * Adjusted position of Orgrimmar icon further away from flight master icon

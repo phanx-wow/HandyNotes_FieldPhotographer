@@ -57,159 +57,159 @@ end
 local names, mapToContinent, db, wasInCamera = {}, {}
 
 local data = {
-	["Arathi"] = {
+	[93] = { -- Arathi Basin
 		[39439262] = 27874, -- Thandol Span
 	},
-	["BlastedLands"] = {
+	[17] = { -- Blasted Lands
 		[54605317] = 27866, -- The Dark Portal
 	},
-	["BurningSteppes"] = {
+	[36] = { -- Burning Steppes
 		[25022128] = 27968, -- Blackrock Mountain
 	},
-	["CrystalsongForest"] = {
+	[127] = { -- Crystalsong Forest
 		[34003700] = 27867, -- Dalaran
 	},
-	["Deepholm"] = {
+	[42] = { -- Deadwind Pass
+		[46987490] = 27876, -- Karazhan
+	},
+	[207] = { -- Deepholm
 		[59005900] = 27955, -- Deathwing's Fall
 	},
-	["Dragonblight"] = {
+	[115] = { -- Dragonblight
 		[87005100] = 27879, -- Naxxramas
 		[60005300] = 27880, -- Wyrmrest Temple
 	},
-	["DunMorogh"] = {
+	[27] = { -- Dun Morogh
 		[59533303] = 27873, -- Deeprun Tram
 	},
-	["Durotar"] = {
+	[1] = { -- Durotar
 		[62027726] = 27971, -- Echo Isles
 		[45001000] = 27869, -- Orgrimmar
 	},
-	["EchoIslesStart"] = {
-		[38283533] = 27971, -- Echo Isles
-	},
-	["Duskwood"] = {
+	[47] = { -- Duskwood
 		[74875097] = 27956, -- Darkshire
 	},
-	["Dustwallow"] = {
+	[70] = { -- Dustwallow
 		[52407642] = 27865, -- Onyxia's Lair
 	},
-	["DeadwindPass"] = {
-		[46987490] = 27876, -- Karazhan
-	},
-	["EasternPlaguelands"] = {
+	[23] = { -- Eastern Plaguelands
 		[78005336] = 27954, -- Light's Hope Chapel
 	},
-	["Elwynn"] = {
+	[463] = { -- Echo Isles
+		[38283533] = 27971, -- Echo Isles
+	},
+	[37] = { -- Elwynn Forest
 		[66503505] = 27873, -- Deeprun Tram
 		[33005000] = 27864, -- Stormwind City
 	},
-	["Feralas"] = {
+	[69] = { -- Feralas
 		[48562076] = 27963, -- The Twin Colossals
 	},
-	["Hellfire"] = {
+	[100] = { -- Hellfire Peninsula
 		[64002100] = 27974, -- Throne of Kil'jaeden
 	},
-	["HillsbradFoothills"] = {
+	[25] = { -- Hillsbrad Foothills
 		[70594495] = 27970, -- Ravenholdt Manor
 	},
-	["HowlingFjord"] = {
+	[117] = { -- Howling Fjord
 		[61005900] = 27973, -- Daggercap Bay
 	},
-	["IcecrownGlacier"] = {
+	[118] = { -- Icecrown
 		[53008700] = 27863, -- The Frozen Throne
 	},
-	["Ironforge"] = {
+	[87] = { -- Ironforge
 		[80315213] = 27873, -- Deeprun Tram
 	},--[[
-	["Kalimdor"] = {
+	[12] = { -- Kalimdor
 		[41928472] = 27969, -- The Scarab Dais
 	},]]
-	["Krasarang"] = {
+	[418] = { -- Krasarang Wilds
 		[72003100] = 27976, -- Turtle Beach
 	},
-	["KunLaiSummit"] = {
+	[379] = { -- Kun Lai Summit
 		[43505220] = 27964, -- Mount Neverest
 	},
-	["LochModan"] = {
+	[48] = { -- Loch Modan
 		[20897417] = 27960, -- Valley of Kings
 	},
-	["Moonglade"] = {
+	[80] = { -- Moonglade
 		[56766652] = 27965, -- Moonglade
 	},
-	["Hyjal"] = {
+	[198] = { -- Mount Hyjal
 		[63492337] = 27953, -- Nordrassil
 	},
-	["Nagrand"] = {
-		[60112341] = 27962, -- Throne of the Elements
-	},
-	["NagrandDraenor"] = {
+	[550] = { -- Nagrand (Draenor)
 		[72992066] = 27962, -- Throne of the Elements
 	},
-	["Netherstorm"] = {
+	[107] = { -- Nagrand (Outland)
+		[60112341] = 27962, -- Throne of the Elements
+	},
+	[109] = { -- Netherstorm
 		[44503400] = 27966, -- The Stormspire
 	},
-	["Orgrimmar"] = {
+	[85] = { -- Orgrimmar
 		[51498109] = 27869, -- Orgrimmar
 	},
-	["SearingGorge"] = {
+	[32] = { -- Searing Gorge
 		[34938343] = 27968, -- Blackrock Mountain
 	},
-	["ShadowmoonValleyDR"] = {
+	[539] = { -- Shadowmoon Valley (Draenor)
 		[71284658] = 27871, -- Temple of Karabor
 	},
-	["Silithus"] = {
+	[81] = { -- Silithus
 		[33718109] = 27969, -- The Scarab Dais
 	},
-	["StormwindCity"] = {
+	[84] = { -- Stormwind City
 		[67193389] = 27873, -- Deeprun Tram
 		[50005000] = 27864, -- Stormwind City
 	},
-	["StranglethornVale"] = {
+	[224] = { -- Stranglethorn Vale
 		[41445414] = 27877, -- Battle Ring, Gurubashi Arena
 		[34267367] = 27868, -- Janeiro's Point
 	},
-	["Talador"] = {
+	[535] = { -- Talador
 		[46357388] = 27977, -- Auchindoun (Draenor)
 	},
-	["Tanaris"] = {
+	[71] = { -- Tanaris
 		[63255059] = 27967, -- Caverns of Time
 	},
-	["TerokkarForest"] = {
+	[108] = { -- Terokkar Forest
 		[29382255] = 27952, -- Shattrath City (Outland)
 	},
-	["TheCapeOfStranglethorn"] = {
+	[210] = { -- The Cape of Stranglethorn
 		[46252601] = 27877, -- Battle Ring, Gurubashi Arena
 		[35406367] = 27868, -- Janeiro's Point
 	},
-	["Uldum"] = {
+	[249] = { -- Uldum
 		[71775195] = 27978, -- Halls of Origination
 	},
-	["UngoroCrater"] = {
+	[78] = { -- Un'goro Crater
 		[81784645] = 27957, -- The Shaper's Terrace
 	},
-	["ValeofEternalBlossoms"] = {
+	[390] = { -- Vale of Eternal Blossoms
 		[50005000] = 27870, -- Vale of Eternal Blossoms
 	},
-	["ValleyoftheFourWinds"] = {
+	[376] = { -- Valley of the Four Winds
 		[52004800] = 27975, -- Sunsong Ranch
 	},
-	["Vashjir"] = {
+	[203] = { -- Vashj'ir
 		[72173877] = 27959, -- Vashj'ir
 	},
-	["VashjirRuins"] = {
-		[58001738] = 27959, -- Vashj'ir
-	},
-	["WesternPlaguelands"] = {
+--	[] = { -- Vashj'ir Ruins ???
+--		[58001738] = 27959, -- Vashj'ir
+--	},
+	[22] = { -- Western Plaguelands
 		[46542031] = 27875, -- Hearthglen
 		[51928248] = 27972, -- Uther's Tomb
 	},
-	["Westfall"] = {
+	[52] = { -- Westfall
 		[42567167] = 27878, -- The Deadmines
 		[30538642] = 27961, -- Westfall Lighthouse
 	},
-	["Wetlands"] = {
+	[56] = { -- Wetlands
 		[51210962] = 27874, -- Thandol Span
 	},
-	["LakeWintergrasp"] = {
+	[123] = { -- Wintergrasp
 		[49861623] = 27958, -- Wintergrasp Fortress
 	},
 }
@@ -220,12 +220,12 @@ local factions = {
 }
 
 local continents = {
-	["Azeroth"] = true, -- Eastern Kingdoms
-	["Draenor"] = true,
-	["Expansion01"] = true, -- Outland
-	["Kalimdor"] = true,
-	["Northrend"] = true,
-	["Pandaria"] = true,
+	[572] = true, -- Draenor
+	[ 13] = true, -- Eastern Kingdoms
+	[ 12] = true, -- Kalimdor
+	[113] = true, -- Northrend
+	[101] = true, -- Outland
+	[424] = true, -- Pandaria
 }
 
 local notes = {
@@ -242,7 +242,7 @@ local notes = {
 	[27967] = L["On the surface is OK"], -- Caverns of Time
 	[27977] = L["Inside the instance"], -- Auchindoun (Draenor)
 	[27978] = L["Inside the instance"], -- Halls of Origination
---	[UNKNOWN] = L["Anywhere in the city"], -- Orgrimmar
+	[27869] = L["Anywhere in the city"], -- Orgrimmar
 }
 
 local cameraBuffs = {
@@ -318,15 +318,15 @@ local options = {
 
 local pluginHandler = {}
 
-function pluginHandler:OnEnter(mapFile, coord)
+function pluginHandler:OnEnter(mapID, coord)
 	local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
 	if self:GetCenter() > UIParent:GetCenter() then
 		tooltip:SetOwner(self, "ANCHOR_LEFT")
 	else
 		tooltip:SetOwner(self, "ANCHOR_RIGHT")
 	end
-	mapFile = gsub(mapFile, "_terrain%d+$", "")
-	local criteria = data[mapFile] and data[mapFile][coord]
+
+	local criteria = data[mapID] and data[mapID][coord]
 	if criteria then
 		tooltip:AddLine(names[criteria])
 		tooltip:AddLine(ACHIEVEMENT_NAME, 1, 1, 1)
@@ -341,7 +341,7 @@ function pluginHandler:OnEnter(mapFile, coord)
 	end
 end
 
-function pluginHandler:OnLeave(mapFile, coord)
+function pluginHandler:OnLeave(mapID, coord)
 	local tooltip = self:GetParent() == WorldMapButton and WorldMapTooltip or GameTooltip
 	tooltip:Hide()
 end
@@ -350,8 +350,8 @@ end
 
 local waypoints = {}
 
-local function setWaypoint(mapFile, coord)
-	local criteria = data[mapFile][coord]
+local function setWaypoint(mapID, coord)
+	local criteria = data[mapID][coord]
 
 	local waypoint = waypoints[criteria]
 	if waypoint and TomTom:IsValidWaypoint(waypoint) then
@@ -359,9 +359,8 @@ local function setWaypoint(mapFile, coord)
 	end
 
 	local title = names[criteria] or criteria
-	local zone = HandyNotes:GetMapFiletoMapID(mapFile)
 	local x, y = HandyNotes:getXY(coord)
-	waypoints[criteria] = TomTom:AddMFWaypoint(zone, nil, x, y, {
+	waypoints[criteria] = TomTom:AddWaypoint(mapID, x, y, {
 		title = title .. "|n" .. ACHIEVEMENT_NAME,
 		persistent = nil,
 		minimap = true,
@@ -370,21 +369,21 @@ local function setWaypoint(mapFile, coord)
 end
 
 local function setAllWaypoints()
-	for mapFile, coords in next, data do
-		if not continents[mapFile] then
+	for mapID, coords in next, data do
+		if not continents[mapID] then
 			for coord in next, coords do
-				setWaypoint(mapFile, coord)
+				setWaypoint(mapID, coord)
 			end
 		end
 	end
 end
 
-function pluginHandler:OnClick(button, down, mapFile, coord)
+function pluginHandler:OnClick(button, down, mapID, coord)
 	if button == "RightButton" and TomTom then
 		if IsControlKeyDown() then
 			setAllWaypoints()
 		else
-			setWaypoint(mapFile, coord)
+			setWaypoint(mapID, coord)
 		end
 	end
 end
@@ -398,23 +397,23 @@ do
 		local coord, v = next(t, prev)
 		while coord do
 			if v then
-				-- coord, mapFile2, iconpath, scale, alpha, level2
+				-- coord, mapID, iconpath, scale, alpha
 				-- multiply scale * 1.4 to compensate for transparent texture regions
 				return coord, nil, ICON, scale * 1.4, alpha
 			end
 			coord, v = next(t, coord)
 		end
 	end
-	function pluginHandler:GetNodes(mapFile, minimap, dungeonLevel)
-		mapFile = gsub(mapFile, "_terrain%d+$", "")
-		--print(ACHIEVEMENT_NAME, "GetNodes", mapFile)
-		local isContinent = continents[mapFile]
+
+	function pluginHandler:GetNodes2(mapID, minimap)
+		--print(ACHIEVEMENT_NAME, "GetNodes", mapID)
+		local isContinent = continents[mapID]
 		if isContinent and not db.showOnContinents then
 			return iterator
 		end
 		scale = isContinent and db.continentScale or db.zoneScale
 		alpha = isContinent and db.continentAlpha or db.zoneAlpha
-		return iterator, data[mapFile]
+		return iterator, data[mapID]
 	end
 end
 
@@ -431,36 +430,37 @@ function Addon:PLAYER_LOGIN()
 	db = self.db.profile
 	-- Remove opposite faction only criteria
 	local faction = UnitFactionGroup("player") 
-	for mapFile, coords in next, data do
+	for mapID, coords in next, data do
 		for coord, criteria in next, coords do
 			if factions[criteria] and factions[criteria] ~= faction then
 				--print("Removed faction criteria:", (GetAchievementCriteriaInfoByID(ACHIEVEMENT_ID, criteria)))
 				coords[coord] = nil
 				if not next(coords) then
-					data[mapFile] = nil
+					data[mapID] = nil
 				end
 			end
 		end
 	end
+
 	-- Calculate continent coordinates
-	local HereBeDragons = LibStub("HereBeDragons-1.0")
-	local continents = { GetMapContinents() }
-	for mapFile, coords in next, data do
-		if not continents[mapFile] then
-			local continentMapID = continents[2 * HandyNotes:GetCZ(mapFile) - 1]
-			local continentMapFile = HandyNotes:GetMapIDtoMapFile(continentMapID)
-			mapToContinent[mapFile] = continentMapFile
-			for coord, criteria in next, coords do
-				local x, y = HandyNotes:getXY(coord)
-				x, y = HereBeDragons:GetWorldCoordinatesFromZone(x, y, mapFile)
-				x, y = HereBeDragons:GetZoneCoordinatesFromWorld(x, y, continentMapID)
-				if x and y then
-					data[continentMapFile] = data[continentMapFile] or {}
-					data[continentMapFile][HandyNotes:getCoord(x, y)] = criteria
+	local HereBeDragons = LibStub("HereBeDragons-2.0")
+	for continentMapID in next, continents do
+		local children = C_Map.GetMapChildrenInfo(continentMapID)
+		for _, map in next, children do
+			local coords = data[map.mapID]
+			if coords then
+				for coord, criteria in next, coords do
+					local mx, my = HandyNotes:getXY(coord)
+					local cx, cy = HereBeDragons:TranslateZoneCoordinates(mx, my, map.mapID, continentMapID)
+					if cx and cy then
+						data[continentMapID] = data[continentMapID] or {}
+						data[continentMapID][HandyNotes:getCoord(cx, cy)] = criteria
+					end
 				end
 			end
 		end
 	end
+
 	-- Go
 	self:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
 	self:CRITERIA_UPDATE()
